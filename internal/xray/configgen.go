@@ -60,7 +60,6 @@ func MakeConfig(conf cfg.Config, users []uuid.UUID) (Root, error) {
 		in.Settings.Clients = append(in.Settings.Clients, User{
 			ID:         u.String(),
 			Flow:       "xtls-rprx-vision",
-			Encryption: "none",
 		})
 	}
 
