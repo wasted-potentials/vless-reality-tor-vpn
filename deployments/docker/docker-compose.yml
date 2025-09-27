@@ -2,18 +2,22 @@ services:
   tor:
     image: debian:bookworm-slim
     container_name: tor
-    command:
-      [
-        "sh",
-        "-c",
-        "apt-get update && apt-get install -y tor && tor -f /etc/tor/torrc",
-      ]
+    environment:
+          DEBIAN_FRONTEND: noninteractive
+    command: >
+          sh -c "
+            apt-get update &&
+            apt-get install -y --no-install-recommends
+              -o Dpkg::Options::='--force-confdef'
+              -o Dpkg::Options::='--force-confold'
+              tor tor-geoipdb &&
+            exec tor -f /etc/tor/torrc
+          "
     volumes:
       - ../tor/torrc:/etc/tor/torrc:ro
       - tor-data:/var/lib/tor
     networks: [vpn]
     restart: unless-stopped
-
   vpnd:
     build:
       context: ../..
