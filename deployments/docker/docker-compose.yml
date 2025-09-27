@@ -2,9 +2,14 @@ services:
   tor:
     image: debian:bookworm-slim
     container_name: tor
-    command: ["sh","-c","apt-get update && apt-get install -y tor && tor -f /etc/tor/torrc"]
+    command:
+      [
+        "sh",
+        "-c",
+        "apt-get update && apt-get install -y tor tor-geoipdb && tor -f /etc/tor/torrc",
+      ]
     volumes:
-      - ./deployments/tor/torrc:/etc/tor/torrc:ro
+      - ../tor/torrc:/etc/tor/torrc:ro
       - tor-data:/var/lib/tor
     networks: [vpn]
     restart: unless-stopped
@@ -20,10 +25,11 @@ services:
     volumes:
       - vpnd-data:/var/lib/vpnd
       - ./config.yaml:/etc/vpnd/config.yaml:ro
+    expose:
+      - "443"
     ports:
-      - "443:443"     # VLESS+Reality
-      - "8080:8080"   # Admin API
-      - "9100:9100"   # Prometheus metrics
+      - "8080:8080" # Admin API
+      - "9100:9100" # Prometheus metrics
     networks: [vpn]
     restart: unless-stopped
 
