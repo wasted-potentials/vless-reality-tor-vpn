@@ -22,9 +22,8 @@ services:
     volumes:
       - vpnd-data:/var/lib/vpnd
       - ./config.yaml:/etc/vpnd/config.yaml:ro
-    expose:
-      - "443"
     ports:
+      - "443:443"
       - "8080:8080" # Admin API
       - "9100:9100" # Prometheus metrics
     networks: [vpn]
