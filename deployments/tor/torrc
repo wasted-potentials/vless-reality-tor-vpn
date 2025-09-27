@@ -2,7 +2,6 @@
 # Expose SOCKS on all interfaces inside container; restrict at firewall level if needed.
 SOCKSPort 0.0.0.0:9050
 DataDirectory /var/lib/tor
-MaxCircuitDirtiness 60
 # Avoid acting as a relay
 SocksPolicy accept *
 
