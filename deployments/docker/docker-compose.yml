@@ -1,0 +1,36 @@
+services:
+  tor:
+    image: debian:bookworm-slim
+    container_name: tor
+    command: ["sh","-c","apt-get update && apt-get install -y tor && tor -f /etc/tor/torrc"]
+    volumes:
+      - ./deployments/tor/torrc:/etc/tor/torrc:ro
+      - tor-data:/var/lib/tor
+    networks: [vpn]
+    restart: unless-stopped
+
+  vpnd:
+    build:
+      context: ../..
+      dockerfile: deployments/docker/Dockerfile
+    container_name: vpnd
+    depends_on: [tor]
+    environment:
+      - XRAY_VERSION=v1.8.7
+    volumes:
+      - vpnd-data:/var/lib/vpnd
+      - ./config.yaml:/etc/vpnd/config.yaml:ro
+    ports:
+      - "443:443"     # VLESS+Reality
+      - "8080:8080"   # Admin API
+      - "9100:9100"   # Prometheus metrics
+    networks: [vpn]
+    restart: unless-stopped
+
+volumes:
+  vpnd-data: {}
+  tor-data: {}
+
+networks:
+  vpn:
+    driver: bridge

@@ -1,0 +1,17 @@
+[Unit]
+Description=VLESS+REALITY+Tor VPN Daemon
+After=network-online.target tor.service
+Wants=network-online.target
+
+[Service]
+User=vpnd
+Group=vpnd
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+Environment=XRAY_VERSION=v1.8.7
+ExecStart=/usr/local/bin/vpnd -config /etc/vpnd/config.yaml
+Restart=on-failure
+RestartSec=5s
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target

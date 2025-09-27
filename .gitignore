@@ -1,0 +1,10 @@
+
+bin/
+dist/
+*.log
+*.tmp
+.vscode/
+.idea/
+**/*.swp
+vendor/
+README.md

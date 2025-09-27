@@ -1,0 +1,10 @@
+# Minimal Tor client config for container/host egress.
+# Expose SOCKS on all interfaces inside container; restrict at firewall level if needed.
+SOCKSPort 0.0.0.0:9050
+DataDirectory /var/lib/tor
+# Avoid acting as a relay
+SocksPolicy accept *
+
+# Avoid DNS leaks (clients should only use SOCKS5)
+ClientUseIPv4 1
+ClientUseIPv6 1

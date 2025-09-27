@@ -1,0 +1,30 @@
+
+log:
+  level: info
+  json: true
+
+admin:
+  listen: ":8080"
+  metrics_listen: ":9100"
+  auth_token: ""
+
+users:
+  path: "/var/lib/vpnd/users.json"
+
+xray:
+  binary: "/usr/local/bin/xray"
+  config_path: "/var/lib/vpnd/xray_config.json"
+  listen: "0.0.0.0:443"
+  dest: "www.cloudflare.com:443"
+  server_names: ["www.cloudflare.com"]
+  private_key: "123"
+  short_ids: ["aabbccdd"]
+  # Route egress traffic via Tor ("tor") or server default network ("direct")
+  egress: "tor"
+  # Xray's internal log level: debug|info|warn|error
+  loglevel: "warn"
+
+tor:
+  enabled: true
+  socks: "tor:9050"
+  bootstrap_timeout: "30s"
