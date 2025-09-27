@@ -1,18 +1,11 @@
 services:
   tor:
-    image: debian:bookworm-slim
     container_name: tor
     environment:
-          DEBIAN_FRONTEND: noninteractive
-    command: >
-          sh -c "
-            apt-get update &&
-            apt-get install -y --no-install-recommends
-              -o Dpkg::Options::='--force-confdef'
-              -o Dpkg::Options::='--force-confold'
-              tor tor-geoipdb &&
-            exec tor -f /etc/tor/torrc
-          "
+      DEBIAN_FRONTEND: noninteractive
+    build:
+      context: ../..
+      dockerfile: deployments/docker/tor.Dockerfile
     volumes:
       - ../tor/torrc:/etc/tor/torrc:ro
       - tor-data:/var/lib/tor
