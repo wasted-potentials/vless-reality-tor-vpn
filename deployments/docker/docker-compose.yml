@@ -6,7 +6,7 @@ services:
       [
         "sh",
         "-c",
-        "apt-get update && apt-get install -y tor tor-geoipdb && tor -f /etc/tor/torrc",
+        "apt-get update && apt-get install -y tor && tor -f /etc/tor/torrc",
       ]
     volumes:
       - ../tor/torrc:/etc/tor/torrc:ro
